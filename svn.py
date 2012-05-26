@@ -32,9 +32,9 @@ def revert(path):
     Popen('TortoiseProc.exe /command:revert /path:%s /closeonend:0' % path)
 
 # Read SVN Revision
-def revision(path):
-    os.system('SubWCRev.exe %s D:/blender_dev/revision.tmpl D:/blender_dev/revision.txt' % path)
-    svn_revision = open('D:/blender_dev/revision.txt', 'r')
+def revision(root, path):
+    os.system('SubWCRev.exe %s %s/revision.tmpl %s/revision.txt' % (path, root, root))
+    svn_revision = open('%s/revision.txt', 'r' % (root))
     rev = svn_revision.read()
 
     return rev

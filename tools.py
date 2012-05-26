@@ -21,7 +21,7 @@
 import os
 
 def compress(tree, rev, bit):
-    os.system('C:/7-Zip/7z.exe a D:/blender_dev/archives/%s_win%s_%s.7z D:/blender_dev/install/%s' % (tree, bit, rev, tree))
+    os.system('C:/7-Zip/7z.exe a %s/archives/%s_win%s_%s.7z %s/install/%s' % (root, tree, bit, rev, tree))
 
 def copy_libs_32(tree):
     txt = open('D:/blender_dev/copy_msvc_libs_32.bat', 'w')

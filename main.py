@@ -26,8 +26,11 @@ import svn
 import tools
 import scons
 
-# Path to the code folders
-root_path = "D:/blender_dev/code/"
+# Path to the root folder
+root = "D:/blender_dev"
+
+# Path to the code folder
+code_path = str(root + "/code/")
 
 # Available checkouts
 source_tree = ("trunk", "soc-2011-tomato", "cycles", "tile", "render25", "asset-browser")
@@ -43,7 +46,6 @@ def print_list():
 def sub_call(tree, path):
     os.system("title %s" % tree)
     while True:
-        print("Operation \n---------\n")
         print("1: Compile a fresh build\n")
         print("10: Compile Release (Installer)\n")
         print("2: Update")
@@ -61,8 +63,7 @@ def sub_call(tree, path):
         if op == 1:
             bit = int(input("32 or 64 bit? "))
             svn.update(path)
-            rev = svn.revision(path)
-            os.system('D:/blender_dev/remove_install.bat')
+            rev = svn.revision(root, path)
             scons.clean(path)
             if bit == 32:
                 scons.compile_32(path, nsis)
@@ -72,19 +73,16 @@ def sub_call(tree, path):
                 tools.copy_libs_64(tree)
             else:
                 continue
-            tools.compress(tree, rev, bit)
+            tools.compress(root, tree, bit, rev, root, tree)
         elif op == 10:
             bit = int(input("32 or 64 bit? "))
             svn.update(path)
-            rev = svn.revision(path)
-            os.system('D:/blender_dev/remove_install.bat')
+            rev = svn.revision(root, path)
             scons.clean(path)
             if bit == 32:
                 scons.compile_32(path, nsis=True)
-                #tools.copy_libs_32(tree)
             elif bit == 64:
                 scons.compile_64(path, nsis=True)
-                #tools.copy_libs_64(tree)
             else:
                 continue
         elif op == 2:
@@ -95,8 +93,8 @@ def sub_call(tree, path):
             svn.revert(path)
         elif op == 5:
             try:
-                os.chdir('D:/blender_dev/install/%s' % tree)
-                Popen('D:/blender_dev/install/%s/blender.exe' % tree)
+                os.chdir('%s/install/%s' % (root, tree))
+                Popen('%s/install/%s/blender.exe' % (root, tree))
             except:
                 print ("No binary file found. Please recompile.")
         elif op == 6:
@@ -116,7 +114,7 @@ def start():
     
     #Variablen
     tree = print_list()
-    full_path = str(root_path + tree)
+    full_path = str(code_path + tree)
     
     os.system('cls')
     sub_call(tree, full_path)

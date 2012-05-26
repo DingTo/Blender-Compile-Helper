@@ -19,7 +19,6 @@
 # ##### END GPL LICENSE BLOCK #####
 
 import os
-from subprocess import Popen
 
 def compile_64(path, nsis):
     os.chdir('%s' % path)
