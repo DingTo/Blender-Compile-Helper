@@ -73,7 +73,7 @@ def sub_call(tree, path):
                 tools.copy_libs_64(tree)
             else:
                 continue
-            tools.compress(root, tree, bit, rev, root, tree)
+            tools.compress(root, tree, rev, bit)
         elif op == 10:
             bit = int(input("32 or 64 bit? "))
             svn.update(path)
